@@ -21,11 +21,13 @@ class AHrefSanitizer
     use UrlSanitizerTrait;
 
     private $allowedHosts;
+    private $allowedSchemes;
     private $allowMailTo;
     private $forceHttps;
 
-    public function __construct(?array $allowedHosts, bool $allowMailTo, bool $forceHttps)
+    public function __construct(?array $allowedHosts, bool $allowMailTo, bool $forceHttps, $array $allowedSchemes)
     {
+        $this->allowedSchemes = $allowedSchemes;
         $this->allowedHosts = $allowedHosts;
         $this->allowMailTo = $allowMailTo;
         $this->forceHttps = $forceHttps;
@@ -33,7 +35,7 @@ class AHrefSanitizer
 
     public function sanitize(?string $input): ?string
     {
-        $allowedSchemes = ['http', 'https'];
+        $allowedSchemes = array_merge($this->allowedSchemes, []); // ['http', 'https'];
         $allowedHosts = $this->allowedHosts;
 
         if ($this->allowMailTo) {
