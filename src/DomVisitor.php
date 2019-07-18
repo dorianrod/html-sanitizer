@@ -14,6 +14,7 @@ namespace HtmlSanitizer;
 use HtmlSanitizer\Model\Cursor;
 use HtmlSanitizer\Node\DocumentNode;
 use HtmlSanitizer\Node\TextNode;
+use HtmlSanitizer\Node\CommentNode;
 use HtmlSanitizer\Visitor\NamedNodeVisitorInterface;
 use HtmlSanitizer\Visitor\NodeVisitorInterface;
 
@@ -78,7 +79,10 @@ class DomVisitor implements DomVisitorInterface
 
         /** @var \DOMNode $child */
         foreach ($node->childNodes ?? [] as $k => $child) {
-            if ('#text' === $child->nodeName) {
+            if ('#comment' === $child->nodeName) {
+                // Add text in the safe tree without a visitor for performance
+                $cursor->node->addChild(new CommentNode($cursor->node, $child->nodeValue));
+            } if ('#text' === $child->nodeName) {
                 // Add text in the safe tree without a visitor for performance
                 $cursor->node->addChild(new TextNode($cursor->node, $child->nodeValue));
             } elseif (!$child instanceof \DOMText) {

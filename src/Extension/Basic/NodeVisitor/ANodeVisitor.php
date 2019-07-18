@@ -40,7 +40,8 @@ class ANodeVisitor extends AbstractNodeVisitor implements NamedNodeVisitorInterf
         $this->sanitizer = new AHrefSanitizer(
             $this->config['allowed_hosts'],
             $this->config['allow_mailto'],
-            $this->config['force_https']
+            $this->config['force_https'],
+            $this->config['allowed_schemes']
         );
     }
 

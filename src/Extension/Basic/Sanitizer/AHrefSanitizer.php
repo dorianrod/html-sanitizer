@@ -25,7 +25,7 @@ class AHrefSanitizer
     private $allowMailTo;
     private $forceHttps;
 
-    public function __construct(?array $allowedHosts, bool $allowMailTo, bool $forceHttps, $array $allowedSchemes)
+    public function __construct(?array $allowedHosts, bool $allowMailTo, bool $forceHttps, array $allowedSchemes)
     {
         $this->allowedSchemes = $allowedSchemes;
         $this->allowedHosts = $allowedHosts;
@@ -51,9 +51,10 @@ class AHrefSanitizer
         }
 
         // Basic validation that it's an e-mail
+        /*
         if (0 === strpos($sanitized, 'mailto:') && (false === strpos($sanitized, '@') || false === strpos($sanitized, '.'))) {
             return null;
-        }
+        }*/
 
         return $sanitized;
     }
