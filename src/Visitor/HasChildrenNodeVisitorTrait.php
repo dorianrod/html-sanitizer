@@ -27,8 +27,8 @@ trait HasChildrenNodeVisitorTrait
     public function enterNode(\DOMNode $domNode, Cursor $cursor)
     {
         $node = $this->createNode($domNode, $cursor);
-        if ($node instanceof TagNodeInterface && isset($this->config['allowed_attributes'])) {
-            $this->setAttributes($domNode, $node, $this->config['allowed_attributes']);
+        if ($node instanceof TagNodeInterface && (isset($this->config['allowed_attributes']) || isset( $this->config['allowed_values']))) {
+            $this->setAttributes($domNode, $node, $this->config['allowed_attributes'] ?? null, $this->config['allowed_values'] ?? null);
         }
 
         $cursor->node->addChild($node);

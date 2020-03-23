@@ -36,10 +36,10 @@ abstract class AbstractTagNode extends AbstractNode implements TagNodeInterface
         return $this->attributes[$name] ?? null;
     }
 
-    public function setAttribute(string $name, ?string $value)
+    public function setAttribute(string $name, ?string $value, ?bool $replace = false)
     {
         // Always use only the first declaration (ease sanitization)
-        if (!array_key_exists($name, $this->attributes)) {
+        if ($replace || !array_key_exists($name, $this->attributes)) {
             $this->attributes[$name] = $value;
         }
     }

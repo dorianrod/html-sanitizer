@@ -26,7 +26,8 @@ abstract class AbstractNodeVisitor implements NodeVisitorInterface
     public function __construct(array $config = [])
     {
         $default = $this->getDefaultConfiguration();
-        $default['allowed_attributes'] = $this->getDefaultAllowedAttributes();
+        $default['allowed_attributes']  = $this->getDefaultAllowedAttributes();
+        $default['allowed_values']      = null;
 
         $this->config = array_merge($default, $config);
     }
