@@ -40,7 +40,7 @@ trait TagVisitorTrait
      * @param TagNodeInterface $node
      * @param array            $allowedAttributes
      */
-    private function setAttributes(\DOMNode $domNode, TagNodeInterface $node, array $allowedAttributes = [])
+    private function setAttributes(\DOMNode $domNode, TagNodeInterface $node, array $allowedAttributes = [], callable $allowedValue = null)
     {
         if (!\count($domNode->attributes)) {
             return;
@@ -50,8 +50,14 @@ trait TagVisitorTrait
         foreach ($domNode->attributes as $attribute) {
             $name = strtolower($attribute->name);
 
-            if (\in_array($name, $allowedAttributes, true)) {
-                $node->setAttribute($name, $attribute->value);
+            if (is_null($allowedAttributes) || \in_array($name, $allowedAttributes, true)) {
+                $value = $attribute->value;
+                if($allowedValue) {
+                    $value = $allowedValue($value, $name, $domNode, $node, $allowedAttributes);
+                    $node->setAttribute($name, $value, true);
+                    continue;
+                }
+                $node->setAttribute($name, $value);
             }
         }
     }
